@@ -12,5 +12,9 @@
     <% } else { %>
         <h2>It is not ready to eat</h2>
     <% } %>
+    <a href="/fruits">Back to fruits</a>
+    <form action="/fruit/<%= fruit._id %>?_method=DELETE" method="POST">
+        <button type="submit">Delete <%= fruit.name %></button>
+    </form>
 </body>
 </html>

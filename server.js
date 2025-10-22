@@ -10,13 +10,23 @@ mongoose.connect(process.env.MONGODB_URI)
 mongoose.connection.on(`connected`, () => {
     console.log(`Connected to MongoDB ${mongoose.connection.name}`);
 })
+const methodOverride = require(`method-override`)
+// const morgan = require(`morgan`)
 
-app.use(express.urlencoded({ extended: false })); // expect user data to come in
+app.use(express.urlencoded({ extended: false })); // expect user input data from forms
+app.use(methodOverride(`_method`))
+// app.use(morgan(`dev`))
 
 const Fruit = require(`./models/fruit.js`)
 
 app.get (`/`, async (req, res) => { // GET request for the index route
     res.render(`home.ejs`)
+})
+
+app.delete(`/fruit/:fruitId`, async (req, res) => { // DELETE request
+    await Fruit.findByIdAndDelete(req.params.fruitId)
+    res.redirect(`/fruits`)
+
 })
 
 app.get(`/fruits`, async (req,res) => { // GET request for index route all fruit documents / records (i.e. not a post request)
