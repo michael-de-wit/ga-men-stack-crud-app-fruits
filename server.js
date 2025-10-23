@@ -27,6 +27,16 @@ app.get(`/fruits/:fruitId/edit`, async (req, res) => {
     })
 })
 
+app.put(`/fruits/:fruitId`, async (req, res) => { // need a form for a put request
+    if(req.body.isReadyToEat === `on`) {
+        req.body.isReadyToEat = true
+    } else {
+        req.body.isReadyToEat = false
+    }
+    await Fruit.findByIdAndUpdate(req.params.fruitId, req.body)
+    res.redirect(`/fruits`)
+})
+
 app.get (`/`, async (req, res) => { // GET request for the index route
     res.render(`home.ejs`)
 })
